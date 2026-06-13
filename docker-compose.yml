@@ -8,4 +8,9 @@ services:
     environment:
       STATE_PATH: /app/state/seen.json
     volumes:
-      - ./state:/app/state
+      # Named volume so Docker seeds it with the image's ownership (uid 10001),
+      # avoiding host bind-mount permission issues for the non-root container.
+      - state:/app/state
+
+volumes:
+  state:

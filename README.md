@@ -64,7 +64,8 @@ docker compose up -d
 docker compose logs -f
 ```
 
-State persists in the `./state` directory mounted into the container.
+State persists in the `state` Docker volume, so it survives restarts and reboots.
+Inspect it with `docker compose exec s365watch cat /app/state/seen.json`.
 
 ### Cron (one-shot mode)
 

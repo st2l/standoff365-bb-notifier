@@ -1,0 +1,11 @@
+services:
+  s365watch:
+    build: .
+    image: standoff365-bb-notifier:latest
+    container_name: s365watch
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      STATE_PATH: /app/state/seen.json
+    volumes:
+      - ./state:/app/state

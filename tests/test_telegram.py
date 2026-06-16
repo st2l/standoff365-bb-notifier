@@ -8,6 +8,13 @@ from pytest_httpx import HTTPXMock
 from s365watch.telegram import TelegramError, TelegramNotifier
 
 
+def test_create_accepts_socks_proxy() -> None:
+    # Exercises the httpx[socks] dependency: a socks5 proxy URL must build a
+    # working client without raising (missing socksio would raise here).
+    with TelegramNotifier.create("tok", "-1", proxy="socks5://127.0.0.1:10808"):
+        pass
+
+
 def test_send_message_posts_to_chat(httpx_mock: HTTPXMock) -> None:
     httpx_mock.add_response(json={"ok": True, "result": {"message_id": 1}})
     with TelegramNotifier.create("token123", "-1001") as notifier:

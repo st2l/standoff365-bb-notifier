@@ -28,6 +28,9 @@ class Config:
         request_timeout: Per-request timeout in seconds.
         notify_existing_on_first_run: If false, the first run only records the
             current programs as a baseline without sending notifications.
+        telegram_proxy: Optional proxy URL for Telegram traffic only (e.g.
+            ``socks5://127.0.0.1:10808``), for hosts where api.telegram.org is
+            blocked. Standoff 365 requests stay direct.
     """
 
     bot_token: str
@@ -36,6 +39,7 @@ class Config:
     state_path: str = DEFAULT_STATE_PATH
     request_timeout: float = 30.0
     notify_existing_on_first_run: bool = False
+    telegram_proxy: str | None = None
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> Config:
@@ -67,6 +71,7 @@ class Config:
             notify_existing_on_first_run=_bool_env(
                 source, "NOTIFY_EXISTING_ON_FIRST_RUN", default=False
             ),
+            telegram_proxy=source.get("TELEGRAM_PROXY", "").strip() or None,
         )
 
 

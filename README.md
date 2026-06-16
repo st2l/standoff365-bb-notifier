@@ -32,6 +32,23 @@ All settings come from environment variables (see `.env.example`):
 | `STATE_PATH` | no | `state/seen.json` | Where seen ids are stored. |
 | `REQUEST_TIMEOUT` | no | `30` | Per-request timeout, seconds. |
 | `NOTIFY_EXISTING_ON_FIRST_RUN` | no | `false` | Notify for existing programs on first run. |
+| `TELEGRAM_PROXY` | no | — | Proxy for Telegram traffic only (e.g. `socks5://127.0.0.1:10808`) where api.telegram.org is blocked. Standoff 365 stays direct. |
+
+### Telegram blocked on the host
+
+Some hosts (e.g. behind a Russian ISP) can reach the Standoff 365 API but not
+`api.telegram.org`. Point `TELEGRAM_PROXY` at a working SOCKS5/HTTP proxy; only
+Telegram traffic is routed through it. If the proxy listens on the host loopback,
+the container must use host networking to reach it — add a
+`docker-compose.override.yml`:
+
+```yaml
+services:
+  s365watch:
+    network_mode: host
+```
+
+and set `TELEGRAM_PROXY=socks5://127.0.0.1:10808` in `.env`.
 
 ### Finding your chat id
 

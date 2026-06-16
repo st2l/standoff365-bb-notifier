@@ -7,7 +7,7 @@ requires-python = ">=3.13"
 license = { text = "MIT" }
 authors = [{ name = "st2l" }]
 dependencies = [
-    "httpx==0.28.1",
+    "httpx[socks]==0.28.1",
 ]
 
 [project.scripts]

@@ -11,6 +11,11 @@ services:
       # Named volume so Docker seeds it with the image's ownership (uid 10001),
       # avoiding host bind-mount permission issues for the non-root container.
       - state:/app/state
+    # If api.telegram.org is blocked on this host, route Telegram traffic
+    # through a proxy by setting TELEGRAM_PROXY in .env. When that proxy listens
+    # on the host loopback (e.g. socks5://127.0.0.1:10808), the container needs
+    # host networking to reach it — add it via docker-compose.override.yml:
+    #   services: { s365watch: { network_mode: host } }
 
 volumes:
   state:

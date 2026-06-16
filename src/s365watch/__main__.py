@@ -60,7 +60,10 @@ def main(argv: list[str] | None = None) -> int:
     with (
         Standoff365Client.create(timeout=config.request_timeout) as client,
         TelegramNotifier.create(
-            config.bot_token, config.chat_id, timeout=config.request_timeout
+            config.bot_token,
+            config.chat_id,
+            timeout=config.request_timeout,
+            proxy=config.telegram_proxy,
         ) as notifier,
     ):
         monitor = Monitor(

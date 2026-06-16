@@ -24,9 +24,24 @@ class TelegramNotifier:
         self._client = client
 
     @classmethod
-    def create(cls, token: str, chat_id: str, timeout: float = 30.0) -> TelegramNotifier:
-        """Construct a notifier with its own httpx session."""
-        return cls(token, chat_id, httpx.Client(timeout=timeout))
+    def create(
+        cls,
+        token: str,
+        chat_id: str,
+        timeout: float = 30.0,
+        proxy: str | None = None,
+    ) -> TelegramNotifier:
+        """Construct a notifier with its own httpx session.
+
+        Args:
+            token: Bot token.
+            chat_id: Target chat id.
+            timeout: Per-request timeout in seconds.
+            proxy: Optional proxy URL (e.g. ``socks5://127.0.0.1:10808``) for
+                hosts where api.telegram.org is otherwise unreachable. Applies
+                only to Telegram traffic.
+        """
+        return cls(token, chat_id, httpx.Client(timeout=timeout, proxy=proxy))
 
     def close(self) -> None:
         self._client.close()
